@@ -35,7 +35,7 @@ function SpatialMiniGame({ question, selectedIndex, answered, onAnswer }) {
 
   if (question.spatial.validZone === 'touchline') {
     return (
-      <div className="relative mt-4 aspect-[16/9] overflow-hidden rounded-md border border-white/15 bg-[#0a5d36] shadow-inner">
+      <div className="relative mt-3 aspect-[16/8] max-h-[35dvh] overflow-hidden rounded-md border border-white/15 bg-[#0a5d36] shadow-inner">
         <div className="absolute inset-[10%] border-2 border-white/70" />
         <div className="absolute left-[48%] top-[10%] h-[80%] w-0.5 bg-white/70" />
         <div className="absolute left-[42%] top-[36%] h-[28%] w-[16%] rounded-full border-2 border-white/65" />
@@ -50,7 +50,7 @@ function SpatialMiniGame({ question, selectedIndex, answered, onAnswer }) {
 
   if (question.spatial.validZone === 'onside') {
     return (
-      <div className="relative mt-4 aspect-[16/9] overflow-hidden rounded-md border border-white/15 bg-[#0a5d36] shadow-inner">
+      <div className="relative mt-3 aspect-[16/8] max-h-[35dvh] overflow-hidden rounded-md border border-white/15 bg-[#0a5d36] shadow-inner">
         <div className="absolute inset-[10%] border-2 border-white/70" />
         <div className="absolute left-[62%] top-[10%] h-[80%] w-1 bg-amber-100 shadow-neon" />
         <div className="absolute left-[8%] top-[10%] h-[80%] w-[54%] bg-emerald-300/20" />
@@ -65,7 +65,7 @@ function SpatialMiniGame({ question, selectedIndex, answered, onAnswer }) {
   }
 
   return (
-    <div className="relative mt-4 aspect-[16/9] overflow-hidden rounded-md border border-white/15 bg-[#0a5d36] shadow-inner">
+    <div className="relative mt-3 aspect-[16/8] max-h-[35dvh] overflow-hidden rounded-md border border-white/15 bg-[#0a5d36] shadow-inner">
       <div className="absolute inset-[10%] border-2 border-white/70" />
       <div className="absolute right-[10%] top-[24%] h-[52%] w-[28%] border-2 border-white/70 bg-emerald-300/18" />
       <div className="absolute right-[10%] top-[36%] h-[28%] w-[12%] border-2 border-white/70" />
@@ -88,24 +88,24 @@ export default function QuestionCard({ question, selectedIndex, answered, isCorr
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: -20, scale: 0.98 }}
         transition={{ type: 'spring', stiffness: 220, damping: 24 }}
-        className="relative mx-auto w-full max-w-2xl overflow-hidden rounded-lg border border-cyan-100/18 bg-[#061014]/78 p-4 shadow-[0_22px_80px_rgba(0,0,0,0.48),inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-xl sm:p-5"
+        className="relative mx-auto max-h-[calc(100dvh-8.5rem)] w-full max-w-2xl overflow-y-auto rounded-lg border border-cyan-100/18 bg-[#061014]/78 p-4 shadow-[0_22px_80px_rgba(0,0,0,0.48),inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-xl sm:max-h-[calc(100dvh-8.75rem)]"
       >
         <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-200/80 to-transparent" />
         <div className="pointer-events-none absolute -right-20 -top-24 h-44 w-44 rounded-full bg-cyan-300/10 blur-3xl" />
-        <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+        <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
           <span className={`rounded-md border px-3 py-1 text-xs font-black uppercase tracking-[0.18em] ${badgeStyles[question.difficulty]}`}>
             {badgeLabel[question.difficulty]} · {pointValues[question.difficulty]} pts
           </span>
           {isSpatial && <span className="rounded-md border border-cyan-300/30 bg-cyan-300/12 px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-cyan-100">3D decision</span>}
         </div>
         <h1 className="text-balance text-xl font-black leading-tight text-white sm:text-2xl">{question.question}</h1>
-        {isSpatial && <p className="mt-2 text-sm font-medium text-cyan-100/85">{question.spatial.prompt}</p>}
+        {isSpatial && <p className="mt-1.5 text-sm font-medium text-cyan-100/85">{question.spatial.prompt}</p>}
 
         {isSpatial && (
           <SpatialMiniGame question={question} selectedIndex={selectedIndex} answered={answered} onAnswer={onAnswer} />
         )}
 
-        <div className="mt-4 grid gap-2 sm:grid-cols-2">
+        <div className="mt-3 grid gap-2 sm:grid-cols-2">
           {question.options.map((option, index) => {
             const chosen = selectedIndex === index;
             const correct = answered && index === question.correctIndex;
