@@ -182,30 +182,30 @@ function FootballIQApp() {
             initial={{ opacity: 0, y: 28, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ type: 'spring', stiffness: 190, damping: 20 }}
-            className="relative w-full max-w-2xl overflow-hidden rounded-lg border border-cyan-100/18 bg-[#061014]/82 p-5 text-center shadow-[0_28px_100px_rgba(0,0,0,0.58),inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-xl sm:p-8"
+            className="relative w-full max-w-xl overflow-hidden rounded-lg border border-cyan-100/18 bg-[#061014]/82 p-4 text-center shadow-[0_28px_100px_rgba(0,0,0,0.58),inset_0_1px_0_rgba(255,255,255,0.12)] backdrop-blur-xl sm:p-6"
           >
             <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-200/80 to-transparent" />
             <div className="pointer-events-none absolute -left-24 -top-24 h-56 w-56 rounded-full bg-fuchsia-400/10 blur-3xl" />
             <div className="pointer-events-none absolute -right-24 bottom-0 h-56 w-56 rounded-full bg-cyan-300/10 blur-3xl" />
 
             <p className="text-xs font-black uppercase tracking-[0.28em] text-cyan-100">Football IQ Challenge</p>
-            <h1 className="mt-4 text-4xl font-black leading-none text-white sm:text-6xl">Arpita Naik</h1>
-            <p className="mx-auto mt-4 max-w-xl text-balance text-xl font-black leading-tight text-slate-100 sm:text-2xl">
+            <h1 className="mt-3 text-3xl font-black leading-none text-white sm:text-5xl">Arpita Naik</h1>
+            <p className="mx-auto mt-3 max-w-lg text-balance text-lg font-black leading-tight text-slate-100 sm:text-xl">
               do you want to be better than a bot at football, or should the bot explain offside slowly?
             </p>
-            <div className="mx-auto mt-5 grid max-w-lg gap-2 text-left text-sm font-bold text-cyan-50/90 sm:grid-cols-3">
-              <div className="rounded-md border border-white/12 bg-white/8 p-3">Bot confidence: annoying</div>
-              <div className="rounded-md border border-white/12 bg-white/8 p-3">Arpita skill: loading</div>
-              <div className="rounded-md border border-white/12 bg-white/8 p-3">Football IQ: prove it</div>
+            <div className="mx-auto mt-4 grid max-w-md gap-2 text-left text-xs font-bold text-cyan-50/90 sm:grid-cols-3">
+              <div className="rounded-md border border-white/12 bg-white/8 p-2.5">Bot confidence: annoying</div>
+              <div className="rounded-md border border-white/12 bg-white/8 p-2.5">Arpita skill: loading</div>
+              <div className="rounded-md border border-white/12 bg-white/8 p-2.5">Football IQ: prove it</div>
             </div>
             <button
               type="button"
               onClick={() => setGameStarted(true)}
-              className="mt-6 w-full rounded-md bg-cyan-300 px-5 py-4 text-sm font-black uppercase tracking-[0.18em] text-slate-950 shadow-[0_0_34px_rgba(34,211,238,0.34)] transition hover:bg-white sm:w-auto"
+              className="mt-5 w-full rounded-md bg-cyan-300 px-5 py-3.5 text-xs font-black uppercase tracking-[0.18em] text-slate-950 shadow-[0_0_34px_rgba(34,211,238,0.34)] transition hover:bg-white sm:w-auto"
             >
               Start and humble the bot
             </button>
-            <p className="mt-4 text-xs font-semibold uppercase tracking-[0.18em] text-slate-300/70">
+            <p className="mt-3 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-slate-300/70">
               Warning: wrong answers may cause dramatic referee behavior.
             </p>
           </motion.section>
