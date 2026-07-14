@@ -84,6 +84,10 @@ function FootballIQApp() {
   const question = deck[currentIndex];
   const [gameStarted, setGameStarted] = useState(false);
   const [paused, setPaused] = useState(false);
+  const [roastStep, setRoastStep] = useState(0);
+  const [roastAnswers, setRoastAnswers] = useState({});
+  const [roastCaption, setRoastCaption] = useState(null);
+  const roastTimer = useRef(null);
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [answered, setAnswered] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
@@ -93,6 +97,7 @@ function FootballIQApp() {
   const isPenaltyQuestion = question?.type === 'penalty';
 
   useEffect(() => () => {
+    clearTimeout(roastTimer.current);
     Object.values(sounds.current || {}).flat().forEach((sound) => sound.unload());
   }, []);
 
@@ -118,6 +123,39 @@ function FootballIQApp() {
     if (!deck.length) return 0;
     return Math.max(pitchProgress, currentIndex / deck.length);
   }, [currentIndex, deck.length, pitchProgress]);
+
+  const roastQuestions = useMemo(() => {
+    const goatPick = roastAnswers.goat || 'Messi';
+    return [
+      {
+        id: 'cricket',
+        label: 'Warmup 1 / 3',
+        question: 'Rohit or Kohli?',
+        options: [
+          { value: 'Rohit', caption: 'Rohit picked. Calm, classy, and still less confused than Arpita at a throw-in.' },
+          { value: 'Kohli', caption: 'Kohli picked. Full aggression selected. Now show that same passion when the ball crosses the sideline.' }
+        ]
+      },
+      {
+        id: 'goat',
+        label: 'Warmup 2 / 3',
+        question: 'GOAT Messi or GOAT Ronaldo?',
+        options: [
+          { value: 'Messi', caption: 'Messi picked. Tiny magician, huge legacy. Meanwhile Arpita is still negotiating with the offside rule.' },
+          { value: 'Ronaldo', caption: 'Ronaldo picked. SIUUU unlocked. Football IQ still loading like office Wi-Fi on Monday.' }
+        ]
+      },
+      {
+        id: 'finalBoss',
+        label: 'Warmup 3 / 3',
+        question: `GOAT ${goatPick} or TL Yash?`,
+        options: [
+          { value: goatPick, caption: `${goatPick} again. Loyalty confirmed. At least this decision did not need a KT session.` },
+          { value: 'TL Yash', caption: 'TL Yash picked. Bacho jaisi tantrums, liar #1 on the leaderboard, and still hasn\'t learned water goes in without lip contact.' }
+        ]
+      }
+    ];
+  }, [roastAnswers.goat]);
 
   const handleAnswer = (index) => {
     if (answered || paused) return;
@@ -151,10 +189,29 @@ function FootballIQApp() {
     nextQuestion();
   };
 
+  const handleRoastPick = (option) => {
+    const current = roastQuestions[roastStep];
+    clearTimeout(roastTimer.current);
+    setRoastAnswers((answers) => ({ ...answers, [current.id]: option.value }));
+    setRoastCaption(option.caption);
+    roastTimer.current = setTimeout(() => {
+      if (roastStep >= roastQuestions.length - 1) {
+        setGameStarted(true);
+        return;
+      }
+      setRoastStep((step) => step + 1);
+      setRoastCaption(null);
+    }, 4000);
+  };
+
   const handlePlayAgain = () => {
     setPitchProgress(0);
     setGameStarted(false);
     setPaused(false);
+    setRoastStep(0);
+    setRoastAnswers({});
+    setRoastCaption(null);
+    clearTimeout(roastTimer.current);
     sounds.current?.crowd.stop();
     playAgain();
   };
@@ -188,25 +245,52 @@ function FootballIQApp() {
             <div className="pointer-events-none absolute -left-24 -top-24 h-56 w-56 rounded-full bg-fuchsia-400/10 blur-3xl" />
             <div className="pointer-events-none absolute -right-24 bottom-0 h-56 w-56 rounded-full bg-cyan-300/10 blur-3xl" />
 
-            <p className="text-xs font-black uppercase tracking-[0.28em] text-cyan-100">Football IQ Challenge</p>
-            <h1 className="mt-3 text-3xl font-black leading-none text-white sm:text-5xl">Arpita Naik</h1>
-            <p className="mx-auto mt-3 max-w-lg text-balance text-lg font-black leading-tight text-slate-100 sm:text-xl">
-              do you want to be better than a bot at football, or should the bot explain offside slowly?
+            <p className="text-xs font-black uppercase tracking-[0.28em] text-cyan-100">SKA FC entrance exam</p>
+            <h1 className="mt-3 text-3xl font-black leading-none text-white sm:text-5xl">Arpita Naik & Co</h1>
+            <p className="mx-auto mt-3 max-w-lg text-balance text-base font-black leading-tight text-slate-100 sm:text-lg">
+              24 hours ago you thought offside was a yoga pose. Let's see how far we've come.
             </p>
-            <div className="mx-auto mt-4 grid max-w-md gap-2 text-left text-xs font-bold text-cyan-50/90 sm:grid-cols-3">
-              <div className="rounded-md border border-white/12 bg-white/8 p-2.5">Bot confidence: annoying</div>
-              <div className="rounded-md border border-white/12 bg-white/8 p-2.5">Arpita skill: loading</div>
-              <div className="rounded-md border border-white/12 bg-white/8 p-2.5">Football IQ: prove it</div>
+            <p className="mx-auto mt-2 max-w-lg text-balance text-sm font-bold leading-relaxed text-cyan-100/85">
+              I spent an entire evening explaining a throw-in to you. This quiz is the final exam.
+            </p>
+            <div className="mx-auto mt-4 max-w-md rounded-md border border-white/12 bg-white/8 p-3 text-left">
+              <div className="flex items-center justify-between gap-3">
+                <span className="rounded-md border border-cyan-200/24 bg-cyan-200/10 px-2 py-1 text-[0.65rem] font-black uppercase tracking-[0.18em] text-cyan-100">
+                  {roastQuestions[roastStep].label}
+                </span>
+                <span className="text-[0.65rem] font-black uppercase tracking-[0.18em] text-slate-300/70">No wrong answers, only evidence</span>
+              </div>
+              <h2 className="mt-3 text-lg font-black text-white">{roastQuestions[roastStep].question}</h2>
+              <div className="mt-3 grid gap-2 sm:grid-cols-2">
+                {roastQuestions[roastStep].options.map((option) => {
+                  const selected = roastAnswers[roastQuestions[roastStep].id] === option.value;
+                  return (
+                    <button
+                      key={option.value}
+                      type="button"
+                      onClick={() => handleRoastPick(option)}
+                      className={`rounded-md border px-3 py-3 text-left text-sm font-black transition ${
+                        selected
+                          ? 'border-cyan-100 bg-cyan-300/24 text-white shadow-[0_0_24px_rgba(34,211,238,0.22)]'
+                          : 'border-white/14 bg-black/18 text-cyan-50 hover:border-cyan-200/60 hover:bg-cyan-200/12'
+                      }`}
+                    >
+                      {option.value}
+                    </button>
+                  );
+                })}
+              </div>
+              {roastCaption && (
+                <motion.p initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="mt-3 rounded-md border border-amber-200/24 bg-amber-200/10 p-3 text-sm font-bold leading-relaxed text-amber-50">
+                  {roastCaption}
+                </motion.p>
+              )}
             </div>
-            <button
-              type="button"
-              onClick={() => setGameStarted(true)}
-              className="mt-5 w-full rounded-md bg-cyan-300 px-5 py-3.5 text-xs font-black uppercase tracking-[0.18em] text-slate-950 shadow-[0_0_34px_rgba(34,211,238,0.34)] transition hover:bg-white sm:w-auto"
-            >
-              Start and humble the bot
-            </button>
+            <p className="mt-4 text-xs font-black uppercase tracking-[0.18em] text-cyan-100/80">
+              {roastCaption ? (roastStep >= roastQuestions.length - 1 ? 'Starting roast match...' : 'Auto-loading next roast...') : 'Pick one to continue'}
+            </p>
             <p className="mt-3 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-slate-300/70">
-              Warning: wrong answers may cause dramatic referee behavior.
+              Warning: the ref is unnecessarily dramatic about mistakes, and so am I.
             </p>
           </motion.section>
         </div>

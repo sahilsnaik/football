@@ -185,7 +185,7 @@ function LedBoards() {
             <meshStandardMaterial color={boardColor} emissive="#0b4f5a" emissiveIntensity={0.35} roughness={0.45} />
           </mesh>
           <Text position={[0, 0.05, side * -0.06]} rotation={[0, side > 0 ? Math.PI : 0, 0]} fontSize={0.34} color={textColor} anchorX="center">
-            FOOTBALL IQ  •  MATCH MODE  •  QUIZ ARENA
+            SION 11  •  SKA FC  •  ARPITA & CO ARENA
           </Text>
         </group>
       ))}
@@ -196,7 +196,7 @@ function LedBoards() {
             <meshStandardMaterial color={boardColor} emissive="#1b2d7a" emissiveIntensity={0.34} roughness={0.45} />
           </mesh>
           <Text position={[0, 0.05, side * 0.06]} rotation={[0, side > 0 ? Math.PI : 0, 0]} fontSize={0.32} color="#9ee8ff" anchorX="center">
-            eFOOTBALL IQ
+            SKA FC
           </Text>
         </group>
       ))}
@@ -373,6 +373,9 @@ function Referee({ lastAnswer }) {
         <sphereGeometry args={[0.17, 12, 8]} />
         <meshStandardMaterial color="#d7ad82" />
       </mesh>
+      <CameraFacingText position={[0, 1.65, 0]} fontSize={0.18} color="#faff7a" opacity={0.78}>
+        GOAT YASH
+      </CameraFacingText>
       <mesh ref={arm} position={[0.2, 1.04, 0]} castShadow>
         <boxGeometry args={[0.12, 0.56, 0.1]} />
         <meshStandardMaterial color="#d7ad82" />
